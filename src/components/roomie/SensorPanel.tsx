@@ -33,7 +33,7 @@ function Tile({ icon, title, children }: { icon: ReactNode; title: string; child
   );
 }
 
-export function SensorPanel({ s }: { s?: SensorStatus }) {
+export function SensorPanel({ s }: { s?: SensorStatus | undefined }) {
   const sensor: SensorStatus = s ?? { roomId: "", pir: "unknown", reed: "unknown", device: "unconnected", lastUpdate: null, simulated: false };
   return (
     <div>
