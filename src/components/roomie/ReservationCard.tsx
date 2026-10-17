@@ -11,7 +11,7 @@ import { InfoRow } from "./Common";
 import { StatusBadge, statusMeta, usageMeta } from "./StatusBadge";
 
 /** Check-in / checkout / cancel buttons with confirmation. Reused by dashboard, list and scanner. */
-export function ReservationActions({ r, room, userId, now, showCancel = true }: { r: Reservation; room?: Room; userId: string; now: Date; showCancel?: boolean }) {
+export function ReservationActions({ r, room, userId, now, showCancel = true }: { r: Reservation; room?: Room | undefined; userId: string; now: Date; showCancel?: boolean }) {
   const [dlg, setDlg] = useState<null | "in" | "out" | "cancel">(null);
   const ci = canCheckIn(r, userId, now);
   const co = canCheckOut(r, userId);
@@ -52,7 +52,7 @@ export function ReservationActions({ r, room, userId, now, showCancel = true }: 
   );
 }
 
-export function ReservationCard({ r, room, userId, now, onDetail }: { r: Reservation; room?: Room; userId: string; now: Date; onDetail?: () => void }) {
+export function ReservationCard({ r, room, userId, now, onDetail }: { r: Reservation; room?: Room | undefined; userId: string; now: Date; onDetail?: (() => void) | undefined }) {
   const u = usageMeta[usageStatus(r, now)];
   return (
     <div className="surface-card p-5 animate-rise">

@@ -17,7 +17,7 @@ export const Route = createFileRoute("/pj/booking/$roomId")({
   component: Booking,
 });
 
-function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: React.ReactNode }) {
+function Field({ id, label, error, children }: { id: string; label: string; error?: string | undefined; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
       <Label htmlFor={id}>{label}</Label>
@@ -64,27 +64,27 @@ function Booking() {
       <PageHeader title="Buat Reservasi" subtitle={`Jam operasional ${BOOKING_OPEN}–${BOOKING_CLOSE}, maksimal ${BOOKING_MAX_DAYS_AHEAD} hari ke depan.`} />
       <div className="grid gap-6 lg:grid-cols-3">
         <form onSubmit={review} noValidate className="surface-card space-y-4 p-6 lg:col-span-2">
-          <Field id="room" label="Ruangan" error={errors.roomId}>
+          <Field id="room" label="Ruangan" error={errors["roomId"]}>
             <Input id="room" value={`${room.name} (${room.code})`} readOnly className={`${inputCls} bg-muted`} />
           </Field>
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="sm:col-span-2">
-              <Field id="course" label="Nama Mata Kuliah" error={errors.course}>
+              <Field id="course" label="Nama Mata Kuliah" error={errors["course"]}>
                 <Input id="course" value={f.course} onChange={set("course")} placeholder="cth. Pemrograman Web" className={inputCls} />
               </Field>
             </div>
-            <Field id="sks" label="Jumlah SKS" error={errors.sks}>
+            <Field id="sks" label="Jumlah SKS" error={errors["sks"]}>
               <Input id="sks" inputMode="numeric" value={f.sks} onChange={set("sks")} placeholder="3" className={inputCls} />
             </Field>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            <Field id="date" label="Tanggal Reservasi" error={errors.date}>
+            <Field id="date" label="Tanggal Reservasi" error={errors["date"]}>
               <Input id="date" type="date" value={f.date} onChange={set("date")} className={inputCls} />
             </Field>
-            <Field id="start" label="Waktu Mulai" error={errors.start}>
+            <Field id="start" label="Waktu Mulai" error={errors["start"]}>
               <Input id="start" type="time" value={f.start} onChange={set("start")} className={inputCls} />
             </Field>
-            <Field id="end" label="Waktu Selesai" error={errors.end}>
+            <Field id="end" label="Waktu Selesai" error={errors["end"]}>
               <Input id="end" type="time" value={f.end} onChange={set("end")} className={inputCls} />
             </Field>
           </div>

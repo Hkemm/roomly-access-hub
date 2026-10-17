@@ -10,7 +10,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 export const toDateStr = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 export const toTimeStr = (d: Date) => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
 export const toMinutes = (t: string) => {
-  const [h, m] = t.split(":").map(Number);
+  const [h = 0, m = 0] = t.split(":").map(Number);
   return h * 60 + m;
 };
 export const combine = (date: string, time: string) => new Date(`${date}T${time}:00`);
@@ -65,28 +65,28 @@ export function validateReservation(
 ): Record<string, string> {
   const e: Record<string, string> = {};
   const room = ctx.rooms.find((r) => r.id === input.roomId);
-  if (!room) e.roomId = "Ruangan tidak ditemukan.";
-  else if (!room.active) e.roomId = "Ruangan sedang nonaktif dan tidak dapat direservasi.";
-  if (!input.course.trim()) e.course = "Nama mata kuliah wajib diisi.";
-  if (!input.sks.trim()) e.sks = "Jumlah SKS wajib diisi.";
+  if (!room) e["roomId"] = "Ruangan tidak ditemukan.";
+  else if (!room.active) e["roomId"] = "Ruangan sedang nonaktif dan tidak dapat direservasi.";
+  if (!input.course.trim()) e["course"] = "Nama mata kuliah wajib diisi.";
+  if (!input.sks.trim()) e["sks"] = "Jumlah SKS wajib diisi.";
   else if (!/^\d+$/.test(input.sks.trim()) || Number(input.sks) < 1 || Number(input.sks) > 6)
-    e.sks = "SKS harus bilangan bulat positif (1–6).";
-  if (!input.date) e.date = "Tanggal wajib diisi.";
-  if (!input.start) e.start = "Waktu mulai wajib diisi.";
-  if (!input.end) e.end = "Waktu selesai wajib diisi.";
+    e["sks"] = "SKS harus bilangan bulat positif (1–6).";
+  if (!input.date) e["date"] = "Tanggal wajib diisi.";
+  if (!input.start) e["start"] = "Waktu mulai wajib diisi.";
+  if (!input.end) e["end"] = "Waktu selesai wajib diisi.";
   if (Object.keys(e).length) return e;
 
-  if (toMinutes(input.end) <= toMinutes(input.start)) e.end = "Waktu selesai harus setelah waktu mulai.";
+  if (toMinutes(input.end) <= toMinutes(input.start)) e["end"] = "Waktu selesai harus setelah waktu mulai.";
   if (toMinutes(input.start) < toMinutes(BOOKING_OPEN) || toMinutes(input.end) > toMinutes(BOOKING_CLOSE))
-    e.start = `Jam reservasi hanya ${BOOKING_OPEN}–${BOOKING_CLOSE}.`;
+    e["start"] = `Jam reservasi hanya ${BOOKING_OPEN}–${BOOKING_CLOSE}.`;
 
   const today = toDateStr(ctx.now);
   const max = new Date(ctx.now);
   max.setDate(max.getDate() + BOOKING_MAX_DAYS_AHEAD);
-  if (input.date < today) e.date = "Tanggal tidak boleh di masa lalu.";
-  else if (input.date > toDateStr(max)) e.date = `Reservasi maksimal ${BOOKING_MAX_DAYS_AHEAD} hari ke depan.`;
+  if (input.date < today) e["date"] = "Tanggal tidak boleh di masa lalu.";
+  else if (input.date > toDateStr(max)) e["date"] = `Reservasi maksimal ${BOOKING_MAX_DAYS_AHEAD} hari ke depan.`;
   else if (input.date === today && combine(input.date, input.start) < ctx.now)
-    e.start = "Waktu mulai sudah lewat.";
+    e["start"] = "Waktu mulai sudah lewat.";
   if (Object.keys(e).length) return e;
 
   const s = toMinutes(input.start);
@@ -98,7 +98,7 @@ export function validateReservation(
       r.status !== "CANCELLED" &&
       overlaps(s, en, toMinutes(r.start), toMinutes(r.end)),
   );
-  if (clash) e.start = `Bentrok dengan reservasi ${clash.course} (${clash.start}–${clash.end}).`;
+  if (clash) e["start"] = `Bentrok dengan reservasi ${clash.course} (${clash.start}–${clash.end}).`;
   return e;
 }
 
