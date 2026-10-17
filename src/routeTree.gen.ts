@@ -10,33 +10,157 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as PjRouteImport } from './routes/pj'
+import { Route as PjIndexRouteImport } from './routes/pj.index'
+import { Route as PjProfilRouteImport } from './routes/pj.profil'
+import { Route as PjReservasiRouteImport } from './routes/pj.reservasi'
+import { Route as PjRiwayatRouteImport } from './routes/pj.riwayat'
+import { Route as PjScanRouteImport } from './routes/pj.scan'
+import { Route as PjBookingRoomIdRouteImport } from './routes/pj.booking.$roomId'
+import { Route as PjRuanganIndexRouteImport } from './routes/pj.ruangan.index'
+import { Route as PjRuanganRoomIdRouteImport } from './routes/pj.ruangan.$roomId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PjRoute = PjRouteImport.update({
+  id: '/pj',
+  path: '/pj',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PjIndexRoute = PjIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PjRoute,
+} as any)
+const PjProfilRoute = PjProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => PjRoute,
+} as any)
+const PjReservasiRoute = PjReservasiRouteImport.update({
+  id: '/reservasi',
+  path: '/reservasi',
+  getParentRoute: () => PjRoute,
+} as any)
+const PjRiwayatRoute = PjRiwayatRouteImport.update({
+  id: '/riwayat',
+  path: '/riwayat',
+  getParentRoute: () => PjRoute,
+} as any)
+const PjScanRoute = PjScanRouteImport.update({
+  id: '/scan',
+  path: '/scan',
+  getParentRoute: () => PjRoute,
+} as any)
+const PjBookingRoomIdRoute = PjBookingRoomIdRouteImport.update({
+  id: '/booking/$roomId',
+  path: '/booking/$roomId',
+  getParentRoute: () => PjRoute,
+} as any)
+const PjRuanganIndexRoute = PjRuanganIndexRouteImport.update({
+  id: '/ruangan/',
+  path: '/ruangan/',
+  getParentRoute: () => PjRoute,
+} as any)
+const PjRuanganRoomIdRoute = PjRuanganRoomIdRouteImport.update({
+  id: '/ruangan/$roomId',
+  path: '/ruangan/$roomId',
+  getParentRoute: () => PjRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/pj': typeof PjRouteWithChildren
+  '/pj/profil': typeof PjProfilRoute
+  '/pj/reservasi': typeof PjReservasiRoute
+  '/pj/riwayat': typeof PjRiwayatRoute
+  '/pj/scan': typeof PjScanRoute
+  '/pj/': typeof PjIndexRoute
+  '/pj/booking/$roomId': typeof PjBookingRoomIdRoute
+  '/pj/ruangan/$roomId': typeof PjRuanganRoomIdRoute
+  '/pj/ruangan/': typeof PjRuanganIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/pj/profil': typeof PjProfilRoute
+  '/pj/reservasi': typeof PjReservasiRoute
+  '/pj/riwayat': typeof PjRiwayatRoute
+  '/pj/scan': typeof PjScanRoute
+  '/pj': typeof PjIndexRoute
+  '/pj/booking/$roomId': typeof PjBookingRoomIdRoute
+  '/pj/ruangan/$roomId': typeof PjRuanganRoomIdRoute
+  '/pj/ruangan': typeof PjRuanganIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/pj': typeof PjRouteWithChildren
+  '/pj/profil': typeof PjProfilRoute
+  '/pj/reservasi': typeof PjReservasiRoute
+  '/pj/riwayat': typeof PjRiwayatRoute
+  '/pj/scan': typeof PjScanRoute
+  '/pj/': typeof PjIndexRoute
+  '/pj/booking/$roomId': typeof PjBookingRoomIdRoute
+  '/pj/ruangan/$roomId': typeof PjRuanganRoomIdRoute
+  '/pj/ruangan/': typeof PjRuanganIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/pj'
+    | '/pj/profil'
+    | '/pj/reservasi'
+    | '/pj/riwayat'
+    | '/pj/scan'
+    | '/pj/'
+    | '/pj/booking/$roomId'
+    | '/pj/ruangan/$roomId'
+    | '/pj/ruangan/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/pj/profil'
+    | '/pj/reservasi'
+    | '/pj/riwayat'
+    | '/pj/scan'
+    | '/pj'
+    | '/pj/booking/$roomId'
+    | '/pj/ruangan/$roomId'
+    | '/pj/ruangan'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/pj'
+    | '/pj/profil'
+    | '/pj/reservasi'
+    | '/pj/riwayat'
+    | '/pj/scan'
+    | '/pj/'
+    | '/pj/booking/$roomId'
+    | '/pj/ruangan/$roomId'
+    | '/pj/ruangan/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  PjRoute: typeof PjRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +172,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pj': {
+      id: '/pj'
+      path: '/pj'
+      fullPath: '/pj'
+      preLoaderRoute: typeof PjRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pj/': {
+      id: '/pj/'
+      path: '/'
+      fullPath: '/pj/'
+      preLoaderRoute: typeof PjIndexRouteImport
+      parentRoute: typeof PjRoute
+    }
+    '/pj/profil': {
+      id: '/pj/profil'
+      path: '/profil'
+      fullPath: '/pj/profil'
+      preLoaderRoute: typeof PjProfilRouteImport
+      parentRoute: typeof PjRoute
+    }
+    '/pj/reservasi': {
+      id: '/pj/reservasi'
+      path: '/reservasi'
+      fullPath: '/pj/reservasi'
+      preLoaderRoute: typeof PjReservasiRouteImport
+      parentRoute: typeof PjRoute
+    }
+    '/pj/riwayat': {
+      id: '/pj/riwayat'
+      path: '/riwayat'
+      fullPath: '/pj/riwayat'
+      preLoaderRoute: typeof PjRiwayatRouteImport
+      parentRoute: typeof PjRoute
+    }
+    '/pj/scan': {
+      id: '/pj/scan'
+      path: '/scan'
+      fullPath: '/pj/scan'
+      preLoaderRoute: typeof PjScanRouteImport
+      parentRoute: typeof PjRoute
+    }
+    '/pj/booking/$roomId': {
+      id: '/pj/booking/$roomId'
+      path: '/booking/$roomId'
+      fullPath: '/pj/booking/$roomId'
+      preLoaderRoute: typeof PjBookingRoomIdRouteImport
+      parentRoute: typeof PjRoute
+    }
+    '/pj/ruangan/': {
+      id: '/pj/ruangan/'
+      path: '/ruangan'
+      fullPath: '/pj/ruangan/'
+      preLoaderRoute: typeof PjRuanganIndexRouteImport
+      parentRoute: typeof PjRoute
+    }
+    '/pj/ruangan/$roomId': {
+      id: '/pj/ruangan/$roomId'
+      path: '/ruangan/$roomId'
+      fullPath: '/pj/ruangan/$roomId'
+      preLoaderRoute: typeof PjRuanganRoomIdRouteImport
+      parentRoute: typeof PjRoute
+    }
   }
 }
 
+interface PjRouteChildren {
+  PjProfilRoute: typeof PjProfilRoute
+  PjReservasiRoute: typeof PjReservasiRoute
+  PjRiwayatRoute: typeof PjRiwayatRoute
+  PjScanRoute: typeof PjScanRoute
+  PjIndexRoute: typeof PjIndexRoute
+  PjBookingRoomIdRoute: typeof PjBookingRoomIdRoute
+  PjRuanganRoomIdRoute: typeof PjRuanganRoomIdRoute
+  PjRuanganIndexRoute: typeof PjRuanganIndexRoute
+}
+
+const PjRouteChildren: PjRouteChildren = {
+  PjProfilRoute: PjProfilRoute,
+  PjReservasiRoute: PjReservasiRoute,
+  PjRiwayatRoute: PjRiwayatRoute,
+  PjScanRoute: PjScanRoute,
+  PjIndexRoute: PjIndexRoute,
+  PjBookingRoomIdRoute: PjBookingRoomIdRoute,
+  PjRuanganRoomIdRoute: PjRuanganRoomIdRoute,
+  PjRuanganIndexRoute: PjRuanganIndexRoute,
+}
+
+const PjRouteWithChildren = PjRoute._addFileChildren(PjRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  PjRoute: PjRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
